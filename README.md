@@ -1,86 +1,22 @@
-<p align="center">
-  <img src="https://reseam.app/logo.svg" alt="Reseam logo" width="96">
-</p>
+<h1 align="center">Kingdom Rush Android FPS patch</h1>
 
-<h1 align="center">Reseam patch bundle template</h1>
+A [Reseam](https://reseam.app) patch for the Android versions of the Kingdom Rush games that use LÖVE.
 
-Start here to write your own patches for [Reseam](https://reseam.app). Copy this repository, rename a few things, and you have a bundle that builds, signs itself, and publishes releases Reseam Manager can install.
+The patch allows the game to run at the desired frame rate, up from 30 FPS for the original trilogy, or 30/60 FPS depending on the device for Kingdom Rush 5 and 6.
+<super><sub>Vengeance runs on a different engine, so the patch doesn't apply to it.</sub></super>
 
-It ships two example patches that work on any app:
+This does the equivalent of editing the `fps` value in the configuration file `settings.lua` on the PC version.
 
-- `Enable debugging` edits the manifest.
-- `Allow screenshots` redirects calls into Kotlin code shipped in the bundle (an extension).
-
-The [docs](https://reseam.app/docs/authoring/start/) walk through this template step by step.
+Notes:
+* Applying the patch resigns the APK, so Google Play Games won't work on the patched version.
+* Only the original game can be automatically downloaded by the manager as it's the only free game in the series. To patch the other games you need to own them, and in the manager set the APK to "Installed version".
+* (Relevant only for >60 FPS) If the game is running below the target FPS, the gameplay will be in slow motion, so don't choose a target FPS higher than the display Hz. Also, note that battery optimizations may reduce the display Hz, and that since Android 15 the display is set to 60Hz by default when running a game. The patch doesn't request the OS for a high display refresh rate, you'll have to force it yourself.
+* The map screen always runs at 60 FPS regardless of the patch.
 
 ## Patches
 
 <!-- patches:start -->
 <!-- patches:end -->
-
-## Setup
-
-- JDK 17.
-- Android SDK, with `ANDROID_HOME` pointing at it.
-- The `reseam` CLI, on `PATH` or at the path in `RESEAM_BIN`. Use the version that matches the plugin version in `settings.gradle.kts`. Releases ship Linux x64 and Windows x64 binaries; on other platforms [build it from source](https://reseam.app/docs/cli/install/).
-- A signing key: `reseam bundle keygen --out ~/.reseam/bundle-signing.key`. It prints the public key users will trust. Keep the key file private and out of the repository.
-
-## Make it yours
-
-1. Set `name`, `author`, and `description` in `manifest.toml`, and `rootProject.name` in `settings.gradle.kts`.
-2. Rename `apps/example` to the app you patch and change the `app.example` packages to your own.
-3. Replace the example patches with your own.
-
-Layout:
-
-```text
-manifest.toml                     bundle name, author, description
-settings.gradle.kts               Reseam plugin version
-apps/<app>/patch/                 Kotlin patches and their translated names, one module per app
-apps/<app>/extensions/<name>/     Kotlin code injected into the app
-apps/<app>/settings/              in-app settings and translated strings (optional)
-shared/<name>/                    extensions used by more than one app
-```
-
-Modules need no build script beyond naming their string table with `reseamStrings`. The `app.reseam.workspace` plugin configures the rest from the layout. How to write patches is in [Your first patch](https://reseam.app/docs/authoring/first_patch/).
-
-## Build and test
-
-```shell
-./gradlew bundle
-reseam bundle list build/reseam/example-patches.reseam
-reseam patch app.apk \
-  --bundle build/reseam/example-patches.reseam \
-  --trust <public key> \
-  --enable "Enable debugging" \
-  --output patched.apk
-```
-
-## Release
-
-The workflow in `.github/workflows/release.yml` runs on `v*` tags, on GitHub and on Forgejo, including Codeberg. It builds and signs the bundle, then [`reseam release patches`](https://reseam.app/docs/cli/release/) adds the release to the `patches.json` of your latest release with the commit subjects since the previous tag as its notes, and publishes both on a release.
-
-1. Add the signing key as the repository secret `BUNDLE_SIGNING_KEY_B64`: `base64 -w0 ~/.reseam/bundle-signing.key`.
-2. On Forgejo, set the repository variable `RUNNER` to the label of a runner with Java and Node.js. GitHub uses `ubuntu-latest`.
-3. Push a tag: `git tag v0.1.0 && git push origin v0.1.0`.
-
-After publishing, the workflow lists the released patches between the `patches:start` and `patches:end` markers in `README.md`, grouped by app, and commits the change to your default branch. Without the markers it leaves the README alone.
-
-Share your patch source with this link. It opens Reseam Manager, which shows the source's apps, patches and signing key before adding it, and keeps it up to date from your latest release. Every release lists the link too.
-
-```text
-https://reseam.app/add/?url=https%3A%2F%2Fgithub.com%2F<owner>%2F<repo>
-```
-
-Put it behind the button in `.github/assets/add-to-reseam.svg` at the top of your README:
-
-```markdown
-[![Add to Reseam](.github/assets/add-to-reseam.svg)](https://reseam.app/add/?url=https%3A%2F%2Fgithub.com%2F<owner>%2F<repo>)
-```
-
-Without Reseam Manager, the link opens a page with the steps to add the source. Publish your public key where users can check it against the one Reseam Manager shows.
-
-When you move to a new Reseam version, bump the plugin version in `settings.gradle.kts`. The release workflow downloads the CLI of that same version.
 
 ## License
 

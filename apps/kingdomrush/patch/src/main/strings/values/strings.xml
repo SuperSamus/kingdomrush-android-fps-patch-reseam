@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="fps_patch_name">Kingdom Rush FPS Patch</string>
-    <string name="fps_patch_description">Changes the target frame rate of Kingdom Rush from 30 FPS to the value you choose.</string>
+    <string name="fps_patch_name">Target FPS</string>
+    <string name="fps_patch_description">Changes the target frame rate to the chosen value, up from 30 FPS (KR1, KR2, KR3) or 30/60 FPS depending on device (KR5, KR6).</string>
     <string name="fps_patch_target_title">Target FPS</string>
-    <string name="fps_patch_target_description">The frame rate that will be written into the game’s configuration.</string>
+    <string name="fps_patch_target_description">The frame rate the game will run at. NOTE: The game will slow down if it cannot run at the target FPS, make sure that your display Hz supports the chosen value, and to disable battery optimizations that lower it. The map screen always runs at 60 FPS.</string>
 </resources>
