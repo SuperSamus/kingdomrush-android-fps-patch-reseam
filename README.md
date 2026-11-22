@@ -16,6 +16,13 @@ Notes:
 ## Patches
 
 <!-- patches:start -->
+
+### `com.ironhidegames.android.kingdomrush`, `com.ironhidegames.android.kingdomrushfrontiers`, `com.ironhidegames.android.kingdomrushorigins`, `com.ironhidegames.android.kingdomrush.alliance`, `com.ironhidegames.android.kingdomrush6.genesis`
+
+| Patch | What it does |
+|---|---|
+| Target FPS | Changes the target frame rate to the chosen value, up from 30 FPS (KR1, KR2, KR3) or 30/60 FPS depending on device (KR5, KR6). |
+
 <!-- patches:end -->
 
 ## License
